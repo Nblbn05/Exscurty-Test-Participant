@@ -5,7 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExamController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('landing');
 });
 
 

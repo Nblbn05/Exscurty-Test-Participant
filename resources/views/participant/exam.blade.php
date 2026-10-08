@@ -9,7 +9,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f6f9;
+            background-color: #eef4ff;
             margin: 0;
             padding: 0;
         }
@@ -114,6 +114,20 @@
         .submit-button:hover {
             background: #157347;
         }
+         .finish-screen {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #eef2f7;
+}
+
+.finish-message {
+    font-size: 32px;
+    font-weight: bold;
+    color: #222;
+}   
     </style>
 </head>
 
@@ -410,40 +424,30 @@
 {{-- Submit Ujian --}}
 <script>
     function submitExam() {
+    const confirmed = confirm("Apakah kamu yakin ingin mengumpulkan jawaban?");
 
-        const confirmation = confirm(
-            'Apakah Anda yakin ingin mengumpulkan jawaban ujian?'
-        );
-
-        if (!confirmation) {
-            return;
-        }
-
-        // Hentikan timer jika sedang berjalan
-        if (typeof timerInterval !== 'undefined') {
-            clearInterval(timerInterval);
-        }
-
-        // Hentikan webcam
-        if (typeof mediaStream !== 'undefined' && mediaStream) {
-            mediaStream.getTracks().forEach(function(track) {
-                track.stop();
-            });
-
-            if (typeof videoElement !== 'undefined') {
-                videoElement.srcObject = null;
-            }
-        }
-
-        alert('Jawaban ujian berhasil dikumpulkan.');
-
-        const submitButton = document.querySelector('.submit-button');
-
-        if (submitButton) {
-            submitButton.disabled = true;
-            submitButton.innerText = 'Ujian Telah Dikumpulkan';
-        }
+    if (!confirmed) {
+        return;
     }
+
+    // Hentikan timer
+    clearInterval(timer);
+
+    // Matikan webcam
+    if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+        stream = null;
+    }
+
+    // Hapus seluruh isi halaman
+    document.body.innerHTML = `
+        <div class="finish-screen">
+            <div class="finish-message">
+                Jawaban sudah di rekam
+            </div>
+        </div>
+    `;
+}
 </script>
 
 </script>
